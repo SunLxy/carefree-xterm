@@ -1,0 +1,17 @@
+{
+  "name": "carefree-xterm-root",
+  "private": true,
+  "scripts": {
+    "build": "turbo run build"
+  },
+  "keywords": [],
+  "author": "SunLxy 1011771396@qq.com",
+  "workspaces": [
+    "core",
+    "web"
+  ],
+  "devDependencies": {
+    "turbo": "^1.6.3",
+    "tsbb": "^3.7.7"
+  }
+}

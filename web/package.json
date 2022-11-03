@@ -1,0 +1,26 @@
+{
+  "name": "carefree-xterm-web",
+  "version": "1.0.0",
+  "description": "",
+  "main": "lib/index.js",
+  "module": "esm/index.js",
+  "types": "lib/index.d.ts",
+  "scripts": {
+    "build": "tsbb build"
+  },
+  "files": [
+    "lib",
+    "esm",
+    "src"
+  ],
+  "keywords": [],
+  "author": "SunLxy <1011771396@qq.com>",
+  "license": "ISC",
+  "dependencies": {
+    "xterm": "~5.0.0"
+  },
+  "devDependencies": {
+    "react": "18.2.0",
+    "@types/react": "18.0.24"
+  }
+}
