@@ -2,13 +2,15 @@
   "name": "carefree-xterm-root",
   "private": true,
   "scripts": {
-    "build": "turbo run build"
+    "build": "turbo run build",
+    "watch": "turbo run watch  --filter=carefree-xterm-web",
+    "start": "npm run-script start --workspace website"
   },
   "keywords": [],
   "author": "SunLxy 1011771396@qq.com",
   "workspaces": [
-    "core",
-    "web"
+    "packages/*",
+    "website"
   ],
   "devDependencies": {
     "turbo": "^1.6.3",

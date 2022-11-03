@@ -6,7 +6,8 @@
   "module": "esm/index.js",
   "types": "lib/index.d.ts",
   "scripts": {
-    "build": "tsbb build"
+    "build": "tsbb build",
+    "watch": "tsbb watch"
   },
   "files": [
     "lib",
@@ -17,6 +18,7 @@
   "author": "SunLxy <1011771396@qq.com>",
   "license": "ISC",
   "dependencies": {
+    "xterm-addon-fit": "~0.6.0",
     "xterm": "~5.0.0",
     "styled-components": "~5.3.6"
   },
