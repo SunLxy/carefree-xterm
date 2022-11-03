@@ -28,9 +28,9 @@ class XtermServer {
   private rows?: number = 24
   private app?: APPType
   // 声明变量
-  private terminals = {}
-  private unsentOutput = {}
-  private temporaryDisposable = {}
+  private terminals: Record<number | string, pty.IPty> = {}
+  private unsentOutput: Record<number | string, string> = {}
+  private temporaryDisposable: Record<number | string, pty.IDisposable> = {}
   constructor(props: XtermServerProps) {
     const { PORT = 8989, env = {}, cols = 80, rows = 24 } = props
     this.PORT = PORT
@@ -165,15 +165,15 @@ class XtermServer {
     // WARNING: This is a naive implementation that will not throttle the flow of data. This means
     // it could flood the communication channel and make the terminal unresponsive. Learn more about
     // the problem and how to implement flow control at https://xtermjs.org/docs/guides/flowcontrol/
-    term.onData(function (data: Buffer) {
+    term.onData((data) => {
       try {
-        send(data)
+        send((data as unknown) as Buffer)
       } catch (ex) {
         // The WebSocket is not open, ignore
       }
     })
-    ws.on('message', function (msg) {
-      term.write(msg)
+    ws.on('message', (msg) => {
+      term.write(msg.toString())
       userInput = true
     })
     ws.on('close', () => {
