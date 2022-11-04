@@ -4,7 +4,7 @@
   "scripts": {
     "build": "turbo run build",
     "watch": "turbo run watch  --filter=carefree-xterm-web",
-    "start": "npm run-script start --workspace website"
+    "start": "turbo run start  --filter=website"
   },
   "keywords": [],
   "author": "SunLxy 1011771396@qq.com",
