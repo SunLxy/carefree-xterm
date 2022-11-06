@@ -17,8 +17,9 @@ export const useSocketTerm = (props: {
   HOST?: string
   subscribe?: Subscribe
   id: string
+  cwd?: string
 }) => {
-  const { PORT = 34567, HOST = '127.0.0.1', subscribe } = props
+  const { PORT = 34567, HOST = '127.0.0.1', subscribe, cwd } = props
   const container = useRef<HTMLDivElement>(null)
   const [newSub] = useSubscribe(subscribe)
 
@@ -37,8 +38,13 @@ export const useSocketTerm = (props: {
 
   // 获取远程的pid
   const getPid = async () => {
+    const body: { cwd?: string } = {}
+    if (cwd) {
+      body.cwd = cwd
+    }
     return fetch(`http://${HOST}:${PORT}/terminals`, {
       method: 'POST',
+      body: JSON.stringify(body),
     }).then((res) => res.json())
   }
 
@@ -47,7 +53,7 @@ export const useSocketTerm = (props: {
     try {
       pid.current = await getPid()
       wsRef.current = new WebSocket(
-        `ws://${HOST}:${PORT}/terminals/${pid.current}?command=npm run test`,
+        `ws://${HOST}:${PORT}/terminals/${pid.current}`,
       )
       termRef.current.loadAddon(new AttachAddon(wsRef.current))
       termRef.current.loadAddon(new SearchAddon())

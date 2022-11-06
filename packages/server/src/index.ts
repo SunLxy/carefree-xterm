@@ -114,7 +114,6 @@ export class XtermServer {
   /**运行命令*/
   private runTerminal(ws: ws, req: Request) {
     const pid = `${req.params.pid}`
-    console.log('command', req.query.command)
     const term = this.terminals.get(pid)
     if (term) {
       term.onData((data) => {

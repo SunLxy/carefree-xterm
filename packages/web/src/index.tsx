@@ -15,11 +15,12 @@ export interface XtermConsoleProps {
   HOST?: string
   id: string
   subscribe?: Subscribe,
+  cwd?: string
 }
 
 const XtermConsole = (props: XtermConsoleProps, ref: React.Ref<XtermConsoleRef>) => {
-  const { PORT = 34567, HOST = "127.0.0.1", id, subscribe } = props
-  const { container, ...rest } = useSocketTerm({ PORT, HOST, id, subscribe })
+  const { PORT = 34567, HOST = "127.0.0.1", id, subscribe, cwd } = props
+  const { container, ...rest } = useSocketTerm({ PORT, HOST, id, subscribe, cwd })
   React.useImperativeHandle(ref, () => ({ ...rest }))
   return <div ref={container} ></div>
 }
