@@ -5,7 +5,7 @@
  * 执行命令
 */
 import React from "react"
-import { Subscribe, XtermConsoleRef } from "./store"
+import { XtermConsoleRef } from "./store"
 import { useSocketTerm } from "./hooks"
 import "xterm/css/xterm.css"
 export * from "./store"
@@ -14,13 +14,12 @@ export interface XtermConsoleProps {
   PORT?: number
   HOST?: string
   id: string
-  subscribe?: Subscribe,
   cwd?: string
 }
 
 const XtermConsole = (props: XtermConsoleProps, ref: React.Ref<XtermConsoleRef>) => {
-  const { PORT = 34567, HOST = "127.0.0.1", id, subscribe, cwd } = props
-  const { container, ...rest } = useSocketTerm({ PORT, HOST, id, subscribe, cwd })
+  const { PORT = 34567, HOST = "127.0.0.1", id, cwd } = props
+  const { container, ...rest } = useSocketTerm({ PORT, HOST, id, cwd })
   React.useImperativeHandle(ref, () => ({ ...rest }))
   return <div ref={container} ></div>
 }

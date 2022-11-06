@@ -65,10 +65,12 @@ export const useSubscribeTerminals = () =>
 /**外层包裹*/
 export const SubscribeTerminalProvider = (props: {
   children: React.ReactNode
+  subscribe?: Subscribe
 }) => {
-  const [subscribe] = useSubscribe()
+  const { subscribe, children } = props
+  const [newSubscribe] = useSubscribe(subscribe)
   return createElement(SubscribeTerminalContext.Provider, {
-    value: subscribe,
-    children: props.children,
+    value: newSubscribe,
+    children: children,
   })
 }

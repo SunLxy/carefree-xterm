@@ -10,18 +10,22 @@ import { FitAddon } from 'xterm-addon-fit'
 import { AttachAddon } from 'xterm-addon-attach'
 import { WebLinksAddon } from 'xterm-addon-web-links'
 import { SearchAddon } from 'xterm-addon-search'
-import { useSubscribe, Subscribe, useSubscribeReginsterId } from './store'
+import {
+  useSubscribe,
+  useSubscribeReginsterId,
+  useSubscribeTerminals,
+} from './store'
 
 export const useSocketTerm = (props: {
   PORT?: number
   HOST?: string
-  subscribe?: Subscribe
   id: string
   cwd?: string
 }) => {
-  const { PORT = 34567, HOST = '127.0.0.1', subscribe, cwd } = props
+  const sub = useSubscribeTerminals()
+  const { PORT = 34567, HOST = '127.0.0.1', cwd } = props
   const container = useRef<HTMLDivElement>(null)
-  const [newSub] = useSubscribe(subscribe)
+  const [newSub] = useSubscribe(sub)
 
   const wsRef = useRef<WebSocket>()
   const isSetTermRef = useRef(false)

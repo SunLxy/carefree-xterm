@@ -1,6 +1,19 @@
-import React from "react";
-import Xterm from "carefree-xterm-web"
+import React, { useEffect } from "react";
+import Xterm, { SubscribeTerminalProvider, useSubscribe, useSubscribeTerminals } from "carefree-xterm-web"
 const Demo = () => {
-  return <Xterm id="2" cwd="/Users/lusun/Carefree/electron/carefree-electron" />
+  const sub = useSubscribeTerminals()
+  useEffect(() => {
+    console.log(sub)
+  }, [sub])
+
+  return <div>
+    <Xterm id="2" cwd="/Users/lusun/Carefree/electron/carefree-electron" />
+  </div>
 }
-export default Demo
+
+const Index = () => {
+  return <SubscribeTerminalProvider>
+    <Demo />
+  </SubscribeTerminalProvider>
+}
+export default Index
