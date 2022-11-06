@@ -1,12 +1,13 @@
-import React, { useEffect } from "react";
 import Xterm, { SubscribeTerminalProvider, useSubscribeTerminals } from "carefree-xterm-web"
 const Demo = () => {
   const sub = useSubscribeTerminals()
-  useEffect(() => {
-    console.log(sub)
-  }, [sub])
+
+  const a = () => {
+    console.log(2121, sub.getTerminal("2"), sub)
+  }
 
   return <div>
+    <button onClick={a} >点击</button>
     <Xterm id="2" cwd="/Users/lusun/Carefree/electron/carefree-electron" />
   </div>
 }

@@ -11,18 +11,18 @@ export class Subscribe {
   private terminals: Map<string, XtermConsoleRef> = new Map([])
   registerId = (terminal: XtermConsoleRef, name?: string) => {
     if (name) {
-      this.terminals[name] = terminal
+      this.terminals.set(name, terminal)
     }
   }
   removeId = (id?: string) => {
     if (id) {
-      delete this.terminals[id]
+      this.terminals.delete(id)
     }
   }
-  getTerminal(id: string) {
+  getTerminal = (id: string) => {
     return this.terminals.get(id)
   }
-  get subTerminal() {
+  get subTerminals() {
     return this.terminals
   }
 }
