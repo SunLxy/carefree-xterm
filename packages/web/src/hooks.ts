@@ -93,9 +93,9 @@ export const useSocketTerm = (props: {
   }, [])
 
   const currentTerminal = {
-    term: termRef.current,
-    ws: wsRef.current,
-    pid: pid.current,
+    term: termRef,
+    ws: wsRef,
+    pid: pid,
     onRemove,
   }
 

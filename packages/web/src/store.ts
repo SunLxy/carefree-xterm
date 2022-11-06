@@ -2,9 +2,9 @@ import React, { createElement } from 'react'
 import { Terminal } from 'xterm'
 
 export interface XtermConsoleRef {
-  term: Terminal
-  ws: WebSocket
-  pid: string
+  term: React.MutableRefObject<Terminal>
+  ws: React.MutableRefObject<WebSocket>
+  pid: React.MutableRefObject<string>
   onRemove: () => void
 }
 export class Subscribe {
