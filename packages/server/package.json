@@ -2,14 +2,13 @@
   "name": "carefree-xterm-server",
   "version": "1.0.0",
   "main": "lib/index.js",
-  "module": "esm/index.js",
   "types": "lib/index.d.ts",
   "scripts": {
-    "build": "tsbb build --disable-babel"
+    "build": "tsbb build --disable-babel",
+    "watch": "tsbb watch --disable-babel"
   },
   "files": [
     "lib",
-    "esm",
     "src"
   ],
   "keywords": [],

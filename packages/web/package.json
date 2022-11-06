@@ -19,11 +19,12 @@
   "license": "ISC",
   "dependencies": {
     "xterm-addon-fit": "~0.6.0",
-    "xterm": "~5.0.0",
-    "styled-components": "~5.3.6"
+    "xterm-addon-attach": "~0.7.0",
+    "xterm-addon-search": "~0.10.0",
+    "xterm-addon-web-links": "~0.7.0",
+    "xterm": "~5.0.0"
   },
   "devDependencies": {
-    "@types/styled-components": "~5.1.26",
     "react": "18.2.0",
     "@types/react": "18.0.24"
   }

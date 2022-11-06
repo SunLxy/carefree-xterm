@@ -5,6 +5,7 @@
   "private": true,
   "scripts": {
     "start": "kkt start",
+    "server": "node ./src/server.js",
     "build": "kkt build",
     "test": "kkt test --env=jsdom",
     "coverage": "kkt test --env=jsdom --coverage"
@@ -22,6 +23,7 @@
     "web-vitals": "^2.1.2"
   },
   "devDependencies": {
+    "carefree-xterm-server": "1.0.0",
     "@kkt/less-modules": "^7.2.1",
     "@types/jest": "~27.4.1",
     "@types/react": "~18.0.0",

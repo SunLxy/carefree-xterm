@@ -12,15 +12,25 @@
     "resolveJsonModule": true,
     "sourceMap": true,
     "baseUrl": "./src",
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
     "allowJs": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "noFallthroughCasesInSwitch": true,
     "moduleResolution": "node",
     "isolatedModules": true,
-    "types": ["jest", "node"],
+    "types": [
+      "jest",
+      "node"
+    ],
     "noEmit": true
   },
-  "include": ["src", ".kktrc.ts"]
+  "include": [
+    "src",
+    ".kktrc.ts"
+  ]
 }
