@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import Xterm, { SubscribeTerminalProvider, useSubscribe, useSubscribeTerminals } from "carefree-xterm-web"
+import Xterm, { SubscribeTerminalProvider, useSubscribeTerminals } from "carefree-xterm-web"
 const Demo = () => {
   const sub = useSubscribeTerminals()
   useEffect(() => {
