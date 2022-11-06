@@ -1,0 +1,65 @@
+name: Build & Deploy
+on:
+  push:
+    branches:
+      - main
+
+env:
+  SKIP_PREFLIGHT_CHECK: true
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - name: Generate changelog
+        uses: jaywcjlove/changelog-generator@v1.5.7
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          filter-author: (SunLxy|dependabot\[bot\]|Renovate Bot)
+          filter: '[R|r]elease[d]\s+[v|V]\d(\.\d+){0,2}'
+
+      - run: yarn
+      - run: yarn build
+
+      - name: Create Tag
+        id: create_tag
+        uses: jaywcjlove/create-tag-action@v1.3.12
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          package-path: ./packages/server/package.json
+
+      - name: Generate changelog
+        id: changelog
+        uses: jaywcjlove/changelog-generator@v1.5.7
+        if: steps.create_tag.outputs.successful
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          head-ref: ${{steps.create_tag.outputs.version}}
+          filter-author: (SunLxy|dependabot\[bot\]|Renovate Bot)
+          filter: '[R|r]elease[d]\s+[v|V]\d(\.\d+){0,2}'
+
+      - name: Create Release
+        uses: ncipollo/release-action@v1
+        if: steps.create_tag.outputs.successful
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          name: ${{ steps.create_tag.outputs.version }}
+          tag: ${{ steps.create_tag.outputs.version }}
+          body: |
+            ```bash
+            npm i carefree-xterm-server@${{steps.create_tag.outputs.version}}
+            npm i carefree-xterm-web@${{steps.create_tag.outputs.version}}
+            ```
+            ${{ steps.changelog.outputs.compareurl }}
+            ${{ steps.changelog.outputs.changelog }}
+
+      - name: Publish 🚀
+        uses: SunLxy/npm-publish@main
+        with:
+          token: ${{ secrets.NPM_TOKEN }}
+          workspaces: |
+            packages/*
