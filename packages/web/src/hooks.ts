@@ -38,13 +38,12 @@ export const useSocketTerm = (props: {
 
   // 获取远程的pid
   const getPid = async () => {
-    const body: { cwd?: string } = {}
+    let query = ''
     if (cwd) {
-      body.cwd = cwd
+      query += 'cwd=' + cwd
     }
-    return fetch(`http://${HOST}:${PORT}/terminals`, {
+    return fetch(`http://${HOST}:${PORT}/terminals?${query}`, {
       method: 'POST',
-      body: JSON.stringify(body),
     }).then((res) => res.json())
   }
 

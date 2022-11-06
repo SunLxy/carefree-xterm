@@ -80,7 +80,7 @@ export class XtermServer {
    * cwd 执行目录
    */
   private createTerminals(req: Request, res: Response) {
-    const query = req.body
+    const query = req.query || {}
     const newCols = parseInt(`${query.cols || this.cols}`)
     const newRows = parseInt(`${query.rows || this.rows}`)
     const spawnOptions: SpawnOptions = {
