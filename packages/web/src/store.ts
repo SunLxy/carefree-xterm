@@ -1,15 +1,16 @@
 import React, { createElement } from 'react'
 import { Terminal } from 'xterm'
 
-export interface XtermConsoleRef {
+export interface XtermWebRef {
   term: React.MutableRefObject<Terminal>
   ws: React.MutableRefObject<WebSocket>
   pid: React.MutableRefObject<string>
-  onRemove: () => void
+  onCloseLink: () => void
+  createSocketLink: () => Promise<void>
 }
 export class Subscribe {
-  private terminals: Map<string, XtermConsoleRef> = new Map([])
-  registerId = (terminal: XtermConsoleRef, name?: string) => {
+  private terminals: Map<string, XtermWebRef> = new Map([])
+  registerId = (terminal: XtermWebRef, name?: string) => {
     if (name) {
       this.terminals.set(name, terminal)
     }
@@ -46,7 +47,7 @@ export const useSubscribeReginsterId = ({
   subscribe,
   id,
 }: {
-  terminal: XtermConsoleRef
+  terminal: XtermWebRef
   subscribe: Subscribe
   id?: string
 }) => {

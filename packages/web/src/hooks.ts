@@ -3,6 +3,8 @@
  * 操作控制台
  * 连接服务
  * 执行命令
+ *
+ * 1.手动控制连接和关闭
  */
 import { Terminal } from 'xterm'
 import { useEffect, useRef } from 'react'
@@ -15,16 +17,26 @@ import {
   useSubscribeReginsterId,
   useSubscribeTerminals,
 } from './store'
-
-export const useSocketTerm = (props: {
+export interface UseSocketTermProps {
+  /**端口*/
   PORT?: number
+  /**host地址*/
   HOST?: string
+  /**唯一值id*/
   id: string
+  /**执行命令目录地址*/
   cwd?: string
-}) => {
+  /**是否自动连接*/
+  isAutoLink?: boolean
+}
+
+export const useSocketTerm = (props: UseSocketTermProps) => {
   const sub = useSubscribeTerminals()
-  const { PORT = 34567, HOST = '127.0.0.1', cwd } = props
+
+  const { PORT = 34567, HOST = '127.0.0.1', cwd, isAutoLink = false } = props
+
   const container = useRef<HTMLDivElement>(null)
+
   const [newSub] = useSubscribe(sub)
 
   const wsRef = useRef<WebSocket>()
@@ -35,12 +47,12 @@ export const useSocketTerm = (props: {
     new Terminal({
       fontWeight: 400,
       fontSize: 14,
-      rows: 200,
+      rows: 80,
       allowProposedApi: true,
     }),
   )
 
-  // 获取远程的pid
+  /**获取远程的pid*/
   const getPid = async () => {
     let query = ''
     if (cwd) {
@@ -51,8 +63,8 @@ export const useSocketTerm = (props: {
     }).then((res) => res.json())
   }
 
-  /**创建Socket*/
-  const createSocket = async () => {
+  /**创建Socket连接*/
+  const createSocketLink = async () => {
     try {
       pid.current = await getPid()
       wsRef.current = new WebSocket(
@@ -67,7 +79,8 @@ export const useSocketTerm = (props: {
     }
   }
 
-  const onRemove = () => {
+  /**关闭连接*/
+  const onCloseLink = () => {
     //组件卸载，清除 Terminal 实例
     if (termRef.current) {
       termRef.current.dispose()
@@ -81,14 +94,17 @@ export const useSocketTerm = (props: {
       termRef.current.open(container.current)
       termRef.current.focus()
       isSetTermRef.current = true
-      createSocket()
+      /**判断是否需要自动连接*/
+      if (isAutoLink) {
+        createSocketLink()
+      }
     }
   }, [container])
 
   // 组件卸载删除
   useEffect(() => {
     return () => {
-      onRemove()
+      onCloseLink()
     }
   }, [])
 
@@ -96,7 +112,8 @@ export const useSocketTerm = (props: {
     term: termRef,
     ws: wsRef,
     pid: pid,
-    onRemove,
+    onCloseLink,
+    createSocketLink,
   }
 
   useSubscribeReginsterId({

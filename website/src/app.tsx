@@ -8,7 +8,7 @@ const Demo = () => {
 
   return <div>
     <button onClick={a} >点击</button>
-    <Xterm id="2" cwd="/Users/lusun/Carefree/electron/carefree-electron" />
+    <Xterm id="2" isAutoLink={true} cwd="/Users/lusun/Carefree/electron/carefree-electron" />
   </div>
 }
 
