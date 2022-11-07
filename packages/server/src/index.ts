@@ -18,6 +18,7 @@ export interface XtermServerProps {
   env?: Record<string, string>
   cols?: number
   rows?: number
+  HOST?: string
 }
 
 export interface APPType extends Express, WithWebsocketMethod {}
@@ -30,25 +31,30 @@ export class XtermServer {
   private cols?: number = 80
   private rows?: number = 24
   private app?: APPType
+  private HOST?: string = '127.0.0.1'
   // 声明变量
   private terminals: Map<number | string, pty.IPty> = new Map([])
   constructor(props?: XtermServerProps) {
-    const { PORT = 34567, env = {}, cols = 80, rows = 24 } = props || {}
+    const { PORT = 34567, env = {}, cols = 80, rows = 24, HOST = '127.0.0.1' } =
+      props || {}
     this.PORT = PORT
     this.env = env
     this.cols = cols
     this.rows = rows
     this.app = express() as APPType
+    this.HOST = HOST
     // 加入 ws 服务
     expressWS(this.app)
     this.initApp(this.app)
     this.initListen()
   }
+  /**重置环境*/
   private restEnv() {
     const newEnv = Object.assign(process.env, this.env || {})
     newEnv['COLORTERM'] = 'truecolor'
     return newEnv
   }
+  /**初始化*/
   private initApp(app: APPType) {
     //解决跨域问题
     app.all('*', function (req, res, next) {
@@ -61,6 +67,7 @@ export class XtermServer {
     app.post('/terminals/size', this.setSize.bind(this))
     app.ws('/terminals/:pid', this.runTerminal.bind(this))
   }
+  /**创建进程*/
   private create(spawnOptions?: SpawnOptions) {
     const newSpawnOptions: SpawnOptions = {
       name: 'xterm-color',
@@ -110,7 +117,6 @@ export class XtermServer {
     term.resize(newCols, newRows)
     res.end()
   }
-
   /**运行命令*/
   private runTerminal(ws: ws, req: Request) {
     const pid = `${req.params.pid}`
@@ -132,11 +138,29 @@ export class XtermServer {
       }
     }
   }
-
+  /**监听端口*/
   private initListen() {
     const port = this.PORT || 34567
-    console.log(`App listening to http://127.0.0.1:` + port)
-    this.app?.listen(port, '127.0.0.1')
+    this.app?.listen(port, this.HOST, () => {
+      console.log(`App listening to http://${this.HOST}:` + port)
+    })
+  }
+  /**关闭所有进程*/
+  killAll() {
+    this.terminals.forEach((term) => {
+      term.kill()
+    })
+  }
+  /**关闭单个进程*/
+  kill(id: string) {
+    const term = this.terminals.get(id)
+    if (term) {
+      term.kill()
+    }
+  }
+
+  get terminalMap() {
+    return this.terminals
   }
 }
 export default XtermServer
