@@ -40,7 +40,6 @@ export const useSocketTerm = (props: UseSocketTermProps) => {
   const [newSub] = useSubscribe(sub)
 
   const wsRef = useRef<WebSocket>()
-  const isSetTermRef = useRef(false)
   const pid = useRef<string>()
 
   const termRef = useRef<Terminal>()
@@ -77,16 +76,19 @@ export const useSocketTerm = (props: UseSocketTermProps) => {
 
   /**创建 Terminal */
   const createTerm = (isAutoLink = false) => {
+    /**已经存在不需要再进行连接操作*/
+    if (termRef.current) {
+      return
+    }
     termRef.current = new Terminal({
       fontWeight: 400,
       fontSize: 14,
       rows: 80,
       allowProposedApi: true,
     })
-    if (container.current && !isSetTermRef.current) {
+    if (container.current) {
       termRef.current.open(container.current)
       termRef.current.focus()
-      isSetTermRef.current = true
       /**判断是否需要自动连接*/
       if (isAutoLink) {
         createSocketLink()
@@ -100,7 +102,6 @@ export const useSocketTerm = (props: UseSocketTermProps) => {
     if (termRef.current) {
       termRef.current.dispose()
     }
-    isSetTermRef.current = false
     wsRef.current && wsRef.current.close()
     wsRef.current = undefined
     pid.current = undefined
