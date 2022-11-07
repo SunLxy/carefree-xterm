@@ -147,15 +147,19 @@ export class XtermServer {
   }
   /**关闭所有进程*/
   killAll() {
-    this.terminals.forEach((term) => {
+    this.terminals.forEach((term, pid) => {
       term.kill()
+    })
+    this.terminals.forEach((term, pid) => {
+      this.terminals.delete(pid)
     })
   }
   /**关闭单个进程*/
-  kill(id: string) {
-    const term = this.terminals.get(id)
+  kill(pid: string) {
+    const term = this.terminals.get(pid)
     if (term) {
       term.kill()
+      this.terminals.delete(pid)
     }
   }
 
