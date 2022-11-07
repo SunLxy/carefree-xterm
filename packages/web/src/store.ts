@@ -7,6 +7,7 @@ export interface XtermWebRef {
   pid: React.MutableRefObject<string>
   onCloseLink: () => void
   createSocketLink: () => Promise<void>
+  createTerm: () => void
 }
 export class Subscribe {
   private terminals: Map<string, XtermWebRef> = new Map([])

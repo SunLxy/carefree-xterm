@@ -43,14 +43,7 @@ export const useSocketTerm = (props: UseSocketTermProps) => {
   const isSetTermRef = useRef(false)
   const pid = useRef<string>()
 
-  const termRef = useRef(
-    new Terminal({
-      fontWeight: 400,
-      fontSize: 14,
-      rows: 80,
-      allowProposedApi: true,
-    }),
-  )
+  const termRef = useRef<Terminal>()
 
   /**获取远程的pid*/
   const getPid = async () => {
@@ -65,6 +58,9 @@ export const useSocketTerm = (props: UseSocketTermProps) => {
 
   /**创建Socket连接*/
   const createSocketLink = async () => {
+    if (!termRef.current) {
+      return
+    }
     try {
       pid.current = await getPid()
       wsRef.current = new WebSocket(
@@ -79,17 +75,14 @@ export const useSocketTerm = (props: UseSocketTermProps) => {
     }
   }
 
-  /**关闭连接*/
-  const onCloseLink = () => {
-    //组件卸载，清除 Terminal 实例
-    if (termRef.current) {
-      termRef.current.dispose()
-    }
-    isSetTermRef.current = false
-    wsRef.current && wsRef.current.close()
-  }
-
-  useEffect(() => {
+  /**创建 Terminal */
+  const createTerm = (isAutoLink = false) => {
+    termRef.current = new Terminal({
+      fontWeight: 400,
+      fontSize: 14,
+      rows: 80,
+      allowProposedApi: true,
+    })
     if (container.current && !isSetTermRef.current) {
       termRef.current.open(container.current)
       termRef.current.focus()
@@ -99,6 +92,23 @@ export const useSocketTerm = (props: UseSocketTermProps) => {
         createSocketLink()
       }
     }
+  }
+
+  /**关闭连接*/
+  const onCloseLink = () => {
+    //组件卸载，清除 Terminal 实例
+    if (termRef.current) {
+      termRef.current.dispose()
+    }
+    isSetTermRef.current = false
+    wsRef.current && wsRef.current.close()
+    wsRef.current = undefined
+    pid.current = undefined
+    termRef.current = undefined
+  }
+
+  useEffect(() => {
+    createTerm(isAutoLink)
   }, [container])
 
   // 组件卸载删除
@@ -114,6 +124,7 @@ export const useSocketTerm = (props: UseSocketTermProps) => {
     pid: pid,
     onCloseLink,
     createSocketLink,
+    createTerm,
   }
 
   useSubscribeReginsterId({
