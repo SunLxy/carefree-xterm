@@ -17,7 +17,7 @@ const Demo = () => {
   return <div>
     <button onClick={onClose} >关闭</button>
     <button onClick={onLink} >连接</button>
-    <Xterm id="2" isAutoLink={true} cwd="/Users/lusun/Carefree/electron/carefree-electron" />
+    <Xterm id="2" isAutoLink={true} cwd="/Users/lusun/Carefree/carefree-antd" />
   </div>
 }
 

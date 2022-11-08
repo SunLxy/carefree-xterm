@@ -11,7 +11,7 @@ import * as pty from 'node-pty'
 import * as ws from 'ws'
 
 const USE_BINARY = os.platform() !== 'win32'
-const shell = os.platform() === 'win32' ? 'powershell.exe' : 'zsh'
+const defaultShell = os.platform() === 'win32' ? 'powershell.exe' : 'zsh'
 
 export interface XtermServerProps {
   PORT?: number
@@ -19,6 +19,7 @@ export interface XtermServerProps {
   cols?: number
   rows?: number
   HOST?: string
+  shell?: string
 }
 
 export interface APPType extends Express, WithWebsocketMethod {}
@@ -32,17 +33,25 @@ export class XtermServer {
   private rows?: number = 24
   private app?: APPType
   private HOST?: string = '127.0.0.1'
+  private shell?: string = defaultShell
   // 声明变量
   private terminals: Map<number | string, pty.IPty> = new Map([])
   constructor(props?: XtermServerProps) {
-    const { PORT = 34567, env = {}, cols = 80, rows = 24, HOST = '127.0.0.1' } =
-      props || {}
+    const {
+      PORT = 34567,
+      env = {},
+      cols = 80,
+      rows = 24,
+      HOST = '127.0.0.1',
+      shell,
+    } = props || {}
     this.PORT = PORT
     this.env = env
     this.cols = cols
     this.rows = rows
     this.app = express() as APPType
     this.HOST = HOST
+    this.shell = shell || defaultShell
     // 加入 ws 服务
     expressWS(this.app)
     this.initApp(this.app)
@@ -77,7 +86,7 @@ export class XtermServer {
       env: this.restEnv(),
       ...(spawnOptions || {}),
     }
-    const term = pty.spawn(shell, ['--login'], newSpawnOptions)
+    const term = pty.spawn(this.shell, ['--login'], newSpawnOptions)
     const pid = term.pid.toString()
     this.terminals.set(pid, term)
     return term

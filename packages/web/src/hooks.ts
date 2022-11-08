@@ -7,7 +7,7 @@
  * 1.手动控制连接和关闭
  */
 import { Terminal } from 'xterm'
-import { useEffect, useRef } from 'react'
+import { createElement, useEffect, useRef } from 'react'
 import { FitAddon } from 'xterm-addon-fit'
 import { AttachAddon } from 'xterm-addon-attach'
 import { WebLinksAddon } from 'xterm-addon-web-links'
@@ -17,6 +17,7 @@ import {
   useSubscribeReginsterId,
   useSubscribeTerminals,
 } from './store'
+import { useHotKeys } from './useHotKeys'
 export interface UseSocketTermProps {
   /**端口*/
   PORT?: number
@@ -133,7 +134,7 @@ export const useSocketTerm = (props: UseSocketTermProps) => {
     id: props.id,
     subscribe: newSub,
   })
-
+  useHotKeys(currentTerminal, container)
   return {
     ...currentTerminal,
     container,
