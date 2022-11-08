@@ -45,6 +45,13 @@ export const useSocketTerm = (props: UseSocketTermProps) => {
 
   const termRef = useRef<Terminal>()
 
+  const refData = {
+    term: termRef,
+    ws: wsRef,
+    pid: pid,
+  }
+  const { onEventListenerLink } = useHotKeys(refData, container)
+
   /**获取远程的pid*/
   const getPid = async () => {
     let query = ''
@@ -69,7 +76,7 @@ export const useSocketTerm = (props: UseSocketTermProps) => {
       termRef.current.loadAddon(new AttachAddon(wsRef.current))
       termRef.current.loadAddon(new SearchAddon())
       termRef.current.loadAddon(new FitAddon())
-      termRef.current.loadAddon(new WebLinksAddon())
+      termRef.current.loadAddon(new WebLinksAddon(onEventListenerLink))
     } catch (err) {
       console.log(err)
     }
@@ -121,9 +128,7 @@ export const useSocketTerm = (props: UseSocketTermProps) => {
   }, [])
 
   const currentTerminal = {
-    term: termRef,
-    ws: wsRef,
-    pid: pid,
+    ...refData,
     onCloseLink,
     createSocketLink,
     createTerm,
@@ -134,7 +139,7 @@ export const useSocketTerm = (props: UseSocketTermProps) => {
     id: props.id,
     subscribe: newSub,
   })
-  useHotKeys(currentTerminal, container)
+
   return {
     ...currentTerminal,
     container,

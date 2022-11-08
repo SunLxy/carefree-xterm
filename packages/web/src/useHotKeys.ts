@@ -3,20 +3,34 @@
  */
 
 import { useEffect } from 'react'
-import { XtermWebRef } from './store'
+import { Terminal } from 'xterm'
 /**
  * 范围内进行监听快捷键
  *
  * 1. 监听清空 command + (k|K)
  *
  */
+
+interface UseHotKeyDataType {
+  term: React.MutableRefObject<Terminal>
+  ws: React.MutableRefObject<WebSocket>
+  pid: React.MutableRefObject<string>
+}
 export const useHotKeys = (
-  terminal: XtermWebRef,
+  terminal: UseHotKeyDataType,
   container?: React.MutableRefObject<HTMLDivElement>,
 ) => {
+  /**清理窗口*/
   const clear = () => {
     if (terminal.term && terminal.term.current) {
       terminal.term.current.clear()
+    }
+  }
+
+  /**监听uri打开窗口*/
+  const onEventListenerLink = (event: MouseEvent, uri: string) => {
+    if (event.metaKey && uri) {
+      window.open(uri)
     }
   }
 
@@ -40,4 +54,5 @@ export const useHotKeys = (
       )
     }
   }, [container])
+  return { onEventListenerLink }
 }
