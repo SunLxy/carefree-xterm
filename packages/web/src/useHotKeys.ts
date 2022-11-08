@@ -48,6 +48,9 @@ export const useHotKeys = (
     }
     container.current.addEventListener('keydown', onEventListener.bind(this))
     return () => {
+      if (!container.current) {
+        return
+      }
       container.current.removeEventListener(
         'keydown',
         onEventListener.bind(this),
