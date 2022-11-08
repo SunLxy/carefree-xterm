@@ -49,9 +49,11 @@ export class XtermServer {
     this.env = env
     this.cols = cols
     this.rows = rows
-    this.app = express() as APPType
     this.HOST = HOST
     this.shell = shell || defaultShell
+    this.app = express() as APPType
+    this.app.use(express.json())
+
     // 加入 ws 服务
     expressWS(this.app)
     this.initApp(this.app)

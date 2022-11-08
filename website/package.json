@@ -1,6 +1,6 @@
 {
   "name": "website",
-  "version": "1.0.0",
+  "version": "1.0.9",
   "description": "Use an example of TypeScript.",
   "private": true,
   "scripts": {
@@ -17,19 +17,19 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "carefree-xterm-web": "1.0.8",
+    "carefree-xterm-web": "1.0.9",
     "react": "~18.2.0",
     "react-dom": "~18.2.0",
     "web-vitals": "^2.1.2"
   },
   "devDependencies": {
-    "node-pty": "~0.11.0-beta23",
-    "carefree-xterm-server": "1.0.8",
     "@kkt/less-modules": "^7.2.1",
     "@types/jest": "~27.4.1",
     "@types/react": "~18.0.0",
     "@types/react-dom": "~18.0.0",
-    "kkt": "^7.2.1"
+    "carefree-xterm-server": "1.0.9",
+    "kkt": "^7.2.1",
+    "node-pty": "~0.11.0-beta23"
   },
   "eslintConfig": {
     "extends": [
