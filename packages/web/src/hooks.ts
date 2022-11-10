@@ -88,13 +88,13 @@ export const useSocketTerm = (props: UseSocketTermProps) => {
     if (termRef.current) {
       return
     }
-    termRef.current = new Terminal({
-      fontWeight: 400,
-      fontSize: 14,
-      rows: 80,
-      allowProposedApi: true,
-    })
     if (container.current) {
+      termRef.current = new Terminal({
+        fontWeight: 400,
+        fontSize: 14,
+        rows: 80,
+        allowProposedApi: true,
+      })
       termRef.current.open(container.current)
       termRef.current.focus()
       /**判断是否需要自动连接*/
