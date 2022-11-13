@@ -7,7 +7,7 @@
  * 1.手动控制连接和关闭
  */
 import { Terminal } from 'xterm'
-import { createElement, useEffect, useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import { FitAddon } from 'xterm-addon-fit'
 import { AttachAddon } from 'xterm-addon-attach'
 import { WebLinksAddon } from 'xterm-addon-web-links'
