@@ -14,11 +14,17 @@ const USE_BINARY = os.platform() !== 'win32'
 const defaultShell = os.platform() === 'win32' ? 'powershell.exe' : 'zsh'
 
 export interface XtermServerProps {
-  PORT?: number
-  env?: Record<string, string>
-  cols?: number
-  rows?: number
+  /**地址*/
   HOST?: string
+  /**端口*/
+  PORT?: number
+  /**重写环境变量*/
+  env?: Record<string, string>
+  /**初始列数*/
+  cols?: number
+  /**初始行数*/
+  rows?: number
+  /**打开命令行的名称*/
   shell?: string
 }
 
