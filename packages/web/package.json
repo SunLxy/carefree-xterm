@@ -1,13 +1,13 @@
 {
   "name": "carefree-xterm-web",
   "version": "1.0.11",
-  "description": "",
+  "description": "渲染组件",
   "main": "lib/index.js",
   "module": "esm/index.js",
   "types": "lib/index.d.ts",
   "scripts": {
-    "build": "tsbb build",
-    "watch": "tsbb watch"
+    "build": "carefrees-rslib build",
+    "watch": "carefrees-rslib build --watch"
   },
   "files": [
     "lib",
@@ -18,11 +18,11 @@
   "author": "SunLxy <1011771396@qq.com>",
   "license": "ISC",
   "dependencies": {
-    "xterm": "~5.0.0",
-    "xterm-addon-attach": "~0.7.0",
-    "xterm-addon-fit": "~0.6.0",
-    "xterm-addon-search": "~0.10.0",
-    "xterm-addon-web-links": "~0.7.0"
+    "@xterm/xterm": "~5.5.0",
+    "@xterm/addon-attach": "~0.11.0",
+    "@xterm/addon-fit": "~0.10.0",
+    "@xterm/addon-search": "~0.15.0",
+    "@xterm/addon-web-links": "~0.11.0"
   },
   "devDependencies": {
     "@types/react": "18.0.24",

@@ -1,22 +1,24 @@
 {
   "name": "carefree-xterm-root",
   "private": true,
+  "author": "SunLxy 1011771396@qq.com",
   "scripts": {
-    "build": "turbo run build",
-    "watch": "turbo run watch  --filter=carefree-xterm-web",
+    "watch:s": "npm run-script watch --workspace carefree-xterm-server",
+    "build:s": "npm run-script build --workspace carefree-xterm-server",
+    "watch:w": "npm run-script watch --workspace carefree-xterm-web",
+    "build:w": "npm run-script build --workspace carefree-xterm-web",
+    "build": "npm run build:s && npm run build:w",
     "start": "npm run-script start --workspace website",
     "server": "npm run-script server --workspace website",
     "version": "lerna version --exact --force-publish --no-push --no-git-tag-version"
   },
   "keywords": [],
-  "author": "SunLxy 1011771396@qq.com",
   "workspaces": [
     "packages/*",
     "website"
   ],
   "devDependencies": {
-    "turbo": "^1.6.3",
-    "tsbb": "^3.7.7",
+    "@carefrees/rslib": "~0.0.10",
     "lerna": "~6.0.3"
   }
 }

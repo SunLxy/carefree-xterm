@@ -1,14 +1,23 @@
 {
   "compilerOptions": {
+    "jsx": "react-jsx",
     "target": "esnext",
-    "module": "esnext",
+    "module": "ESNext",
     "moduleResolution": "node",
-    "importHelpers": true,
+    "importHelpers": false,
     "esModuleInterop": true,
-    "sourceMap": true,
+    "sourceMap": false,
     "allowSyntheticDefaultImports": true,
     "declaration": true,
-    "jsx": "react",
-    "baseUrl": "./",
+    "skipLibCheck": true,
+    "outDir": "esm",
+    "baseUrl": "./src",
+    "rootDir": "./src"
   },
+  "include": [
+    "src/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+  ]
 }

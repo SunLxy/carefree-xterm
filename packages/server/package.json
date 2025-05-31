@@ -1,27 +1,29 @@
 {
   "name": "carefree-xterm-server",
   "version": "1.0.11",
+  "author": "SunLxy <1011771396@qq.com>",
+  "license": "ISC",
   "main": "lib/index.js",
+  "module": "esm/index.js",
   "types": "lib/index.d.ts",
   "scripts": {
-    "build": "tsbb build --disable-babel",
-    "watch": "tsbb watch --disable-babel"
+    "build": "carefrees-rslib build --node",
+    "watch": "carefrees-rslib build --watch --node"
   },
   "files": [
     "lib",
+    "esm",
     "src"
   ],
   "keywords": [],
-  "author": "SunLxy <1011771396@qq.com>",
-  "license": "ISC",
   "dependencies": {
-    "express": "~4.18.2",
+    "express": "~5.1.0",
     "express-ws": "~5.0.2"
   },
   "devDependencies": {
-    "@types/express": "~4.17.14",
-    "@types/express-ws": "~3.0.1",
-    "@types/node": "18.11.9",
-    "node-pty": "~0.11.0-beta23"
+    "@types/express": "~5.0.2",
+    "@types/express-ws": "~3.0.5",
+    "@types/node": "22.15.29",
+    "node-pty": "~1.0.0"
   }
 }

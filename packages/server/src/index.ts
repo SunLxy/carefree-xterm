@@ -28,7 +28,7 @@ export interface XtermServerProps {
   shell?: string
 }
 
-export interface APPType extends Express, WithWebsocketMethod {}
+export interface APPType extends Express, WithWebsocketMethod { }
 
 export type SpawnOptions = pty.IPtyForkOptions | pty.IWindowsPtyForkOptions
 
@@ -59,7 +59,6 @@ export class XtermServer {
     this.shell = shell || defaultShell
     this.app = express() as APPType
     this.app.use(express.json())
-
     // 加入 ws 服务
     expressWS(this.app)
     this.initApp(this.app)
@@ -74,7 +73,7 @@ export class XtermServer {
   /**初始化*/
   private initApp(app: APPType) {
     //解决跨域问题
-    app.all('*', function (req, res, next) {
+    app.all('/*splat', function (req, res, next) {
       res.header('Access-Control-Allow-Origin', '*')
       res.header('Access-Control-Allow-Headers', 'Content-Type')
       res.header('Access-Control-Allow-Methods', '*')
@@ -87,7 +86,7 @@ export class XtermServer {
   /**创建进程*/
   private create(spawnOptions?: SpawnOptions) {
     const newSpawnOptions: SpawnOptions = {
-      name: 'xterm-color',
+      name: 'xterm-256color',
       cols: 80,
       rows: 24,
       encoding: USE_BINARY ? null : 'utf8',
@@ -127,12 +126,18 @@ export class XtermServer {
   /**设置大小*/
   private setSize(req: Request, res: Response) {
     const query = req.query
-    const pid = `${req.params.pid}`
+    const pid = `${query.pid}`
     const newCols = parseInt(`${query.cols || this.cols}`)
     const newRows = parseInt(`${query.rows || this.rows}`)
     const term = this.terminals.get(pid)
-    term.resize(newCols, newRows)
-    res.end()
+    if (term) {
+      term.resize(newCols, newRows)
+      res.send(true)
+      res.end()
+    } else {
+      res.send(false)
+      res.end()
+    }
   }
   /**运行命令*/
   private runTerminal(ws: ws, req: Request) {
