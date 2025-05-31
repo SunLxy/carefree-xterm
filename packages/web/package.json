@@ -1,6 +1,6 @@
 {
   "name": "carefree-xterm-web",
-  "version": "1.0.11",
+  "version": "2.0.0",
   "description": "渲染组件",
   "main": "lib/index.js",
   "module": "esm/index.js",
@@ -18,11 +18,11 @@
   "author": "SunLxy <1011771396@qq.com>",
   "license": "ISC",
   "dependencies": {
-    "@xterm/xterm": "~5.5.0",
     "@xterm/addon-attach": "~0.11.0",
     "@xterm/addon-fit": "~0.10.0",
     "@xterm/addon-search": "~0.15.0",
-    "@xterm/addon-web-links": "~0.11.0"
+    "@xterm/addon-web-links": "~0.11.0",
+    "@xterm/xterm": "~5.5.0"
   },
   "devDependencies": {
     "@types/react": "18.0.24",
